@@ -4,7 +4,8 @@ import proxy from "express-http-proxy";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 dotenv.config();
-
+import protect from "./middleware/auth.middleware.js";
+import { getCurrUser } from "./controllers/user.controller.js";
 const app = express();
 app.use(cors({
   origin: process.env.FRONTEND_URL,
@@ -14,7 +15,7 @@ app.use(cookieParser());
 const PORT = process.env.PORT || 8000;
 
 app.use("/auth",proxy( process.env.AUTH_SERVICE_URL));
-
+app.get("/me", protect, getCurrUser);
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Gateway is running" });
 });
