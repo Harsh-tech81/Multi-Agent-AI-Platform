@@ -27,9 +27,8 @@ export const login = async (req, res) => {
         email: user.email,
         avatar: user.avatar,
       }),
-      {
-        EX: 60 * 60 * 24 * 7,
-      },
+      "EX",
+      60 * 60 * 24 * 7
     );
 
     res.cookie("session", sessionId, {

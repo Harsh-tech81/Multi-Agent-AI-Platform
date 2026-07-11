@@ -14,8 +14,8 @@ app.use(cors({
 app.use(cookieParser());
 const PORT = process.env.PORT || 8000;
 
-app.use("/auth",proxy( process.env.AUTH_SERVICE_URL));
-app.get("/me", protect, getCurrUser);
+app.use("/api/auth",proxy( process.env.AUTH_SERVICE_URL));
+app.get("/api/me", protect, getCurrUser);
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Gateway is running" });
 });
