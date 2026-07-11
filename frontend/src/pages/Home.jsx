@@ -2,12 +2,16 @@ import { auth, googleProvider } from "../../utils/firebase";
 import { signInWithPopup } from "firebase/auth";
 import api from "../../utils/axios";
 import { FcGoogle } from "react-icons/fc";
-
+import { setUserData } from "../redux/userSlice";
+import { useSelector,useDispatch } from "react-redux";
 function Home() {
+  const {userData} = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  console.log("User Data from Redux:", userData);
   const handleLogin = async (token) => {
     try {
       const { data } = await api.post("/api/auth/login", { token });
-      console.log(data);
+      dispatch(setUserData(data));
     } catch (error) {
       console.log(error);
     }
@@ -21,7 +25,8 @@ function Home() {
 
   return (
     <div className="flex h-screen bg-[#0d0f14] text-white overflow-hidden">
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur">
+    {
+      !userData && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur">
         <div className="flex w-[340px] bg-[#13151c] border border-white/[0.88] rounded-2xl p-7 flex-col gap-5">
           <div className="flex flex-col gap-1">
             <h2 className="text-[17px] font-semibold text-slate-100 tracking-tight">
@@ -40,6 +45,7 @@ function Home() {
           </button>
         </div>
       </div>
+    }
     </div>
   );
   

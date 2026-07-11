@@ -5,9 +5,10 @@ const getCurrUser = async () => {
     const { data } = await api.get("/api/me",{
       withCredentials: true
     });
-    console.log(data);
+   return data;
   } catch (error) {
     console.log(error);
+    return null;
   }
 };
 
