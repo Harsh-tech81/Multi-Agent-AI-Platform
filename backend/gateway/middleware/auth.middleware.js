@@ -7,7 +7,7 @@ import redis from "../../shared/redis/redis.js";
       return res.status(400).json({ message: "Unauthorized" });
     }
     const session = await redis.get(`session:${sessionId}`);
-    console.log("Session from Redis:", session);
+    // console.log("Session from Redis:", session);
     if (!session) {
       return res.status(400).json({ message: "Session expired" });
     }
