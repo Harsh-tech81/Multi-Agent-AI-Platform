@@ -4,6 +4,9 @@ import api from "../../utils/axios";
 import { FcGoogle } from "react-icons/fc";
 import { setUserData } from "../redux/userSlice";
 import { useSelector,useDispatch } from "react-redux";
+import SideBar from "../components/SideBar";
+import ChatArea from "../components/ChatArea";
+import Artifact from "../components/Artifact";
 function Home() {
   const {userData} = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -25,12 +28,19 @@ function Home() {
 
   return (
     <div className="flex h-screen bg-[#0d0f14] text-white overflow-hidden">
+
+<SideBar/>
+<ChatArea/>
+<Artifact/>
+
+
+
     {
       !userData && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur">
         <div className="flex w-[340px] bg-[#13151c] border border-white/[0.88] rounded-2xl p-7 flex-col gap-5">
           <div className="flex flex-col gap-1">
             <h2 className="text-[17px] font-semibold text-slate-100 tracking-tight">
-              Welcome to CortexAI
+              Welcome to AgentFlow AI
             </h2>
             <p className="text-[13px] text-slate-500">
               Please login to continue using the app.
