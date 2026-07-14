@@ -1,4 +1,13 @@
-import { MessageSquare, PanelLeftIcon, PenSquare, Plus } from "lucide-react";
+import {
+  MessageSquare,
+  PanelLeftIcon,
+  PenSquare,
+  Plus,
+  User,
+  Coins,
+  LogOut,
+  PanelRight,
+} from "lucide-react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getConversations } from "../features/getConversations";
@@ -8,17 +17,18 @@ import {
   addConversation,
   setSelectedConversation,
 } from "../redux/conversationSlice";
-
+import { setUserData } from "../redux/userSlice";
+import logOut from "../features/logOut";
 function SideBar() {
   const [collapsed, setCollapsed] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const dispatch = useDispatch();
   const { conversations, selectedConversation } = useSelector(
     (state) => state.conversation,
   );
-
-  // I have used this conversations.conversations.length to check if there are any conversations in the state. If there are no conversations, it will display a message saying "No Recent Conversations". If there are conversations, it will display the list of conversations in a scrollable div.
+  const { userData } = useSelector((state) => state.user);
+  // I have used this conversations.conversations.length to check if there are any conversations in the state
   // which sir has used only conversations.length but it is not working because conversations is an object and it has a property called conversations which is an array. So we need to use conversations.conversations.length to get the length of the array.
-  // in future if it gives error then we can use optional chaining operator to check if conversations is not null or undefined before accessing the length property. So we can use conversations?.conversations?.length instead of conversations.conversations.length.
   // console.log(conversations.conversations.length);
   useEffect(() => {
     const getConv = async () => {
@@ -26,12 +36,32 @@ function SideBar() {
       dispatch(setConversations(data));
     };
     getConv();
-  }, []);
+  }, [userData?._id]);
 
   const handleCreateConversation = async () => {
     const data = await createConversation();
     dispatch(addConversation(data));
   };
+
+  if (collapsed) {
+    return (
+      <div className="hidden lg:flex items-center flex-col w-[56px] h-screen shrink-0 bg-[#0d0f14] border-r border-white/[0.06] py-4 gap-1">
+        <button
+          className="flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-colors duration-150 bg-transparent border-none cursor-pointer mb-1"
+          onClick={() => setCollapsed(false)}
+        >
+          <PanelRight />
+        </button>
+
+        <button
+          className="flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-colors duration-150 bg-transparent border-none cursor-pointer"
+          onClick={handleCreateConversation}
+        >
+          <Plus size={17} />
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed lg:static inset-y-0 left-0 z-50 w-[270px] h-screen shrink-0 bg-[#0d0f14] border-r border-white/[0.06] ">
@@ -89,11 +119,70 @@ function SideBar() {
                   key={id}
                   className={`flex items-center gap-2.5 px-3 py-2.5 rounded-[10px] mb-0.5 cursor-pointer border transition-colors duration-150 ${isActive ? "bg-indigo-500/10 border-indigo-500/[0.18] " : "bg-transparent border-transparent"}`}
                 >
-                  <MessageSquare />
-                  <span>{conversation?.title || "New Chat"}</span>
+                  <div
+                    className={`flex items-center justify-center shrink-0 w-[28px] h-[28px] rounded-lg duration-150 transition-colors  ${isActive ? "text-indigo-400 bg-indigo-500/15" : "bg-white/[0.05] text-slate-500"} `}
+                  >
+                    <MessageSquare size={13} />
+                  </div>
+                  <span
+                    className={`text-[13px] font-medium truncate ${isActive ? "text-slate-100" : "text-slate-300"}`}
+                  >
+                    {conversation?.title || "New Chat"}
+                  </span>
                 </div>
               );
             })}
+        </div>
+
+        <div className="mx-2.5 h-px bg-white/[0.06]" />
+        <div className="px-3.5 py-3.5">
+          {userData ? (
+            <div className="flex items-center gap-2.5 cursor-pointer rounded-xl px-3 py-2.5 hover:bg-white/[0.05] transition-colors duration-150">
+              <div className="relative shrink-0">
+                {userData?.avatar || !imageError ? (
+                  <img
+                    className="w-9 h-9 rounded-[10px] object-cover border-2 border-indigo-500/25"
+                    src={userData?.avatar}
+                    onError={() => setImageError(true)}
+                    alt="User's Avatar"
+                  />
+                ) : (
+                  <div className="w-9 h-9 rounded-[10px]  bg-white/[0.06] flex items-center justify-center">
+                    <User size={15} className="text-slate-400" />
+                  </div>
+                )}
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <p className="text-[13.5px] font-semibold text-slate-100 truncate">
+                  {userData?.name || "User"}
+                </p>
+                <p className="text-[11px] text-slate-600 mt-px">
+                  {"Free Plan"}
+                </p>
+              </div>
+
+              <div className="flex gap-1">
+                <button className="flex items-center justify-center w-7 h-7 rounded-[7px] border-none bg-transparent text-yellow-600 cursor-pointer hover:bg-white/[0.08] hover:text-slate-400 transition-all duration-150">
+                  <Coins size={16} />{" "}
+                </button>
+                <button
+                  className="flex items-center justify-center w-7 h-7 rounded-[7px] border-none bg-transparent text-slate-600 cursor-pointer hover:bg-white/[0.08] hover:text-slate-400 transition-all duration-150"
+                  onClick={() => {
+                    logOut();
+                    dispatch(setUserData(null));
+                  }}
+                >
+                  {" "}
+                  <LogOut size={16} />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button className="w-full flex items-center justify-center gap-2 text-sm font-medium text-slate-200 bg-white/[0.05] border border-white/[0.08] rounded-xl py-[11px] cursor-pointer hover:bg-white/[0.08] transition-colors duration-150">
+              Login
+            </button>
+          )}
         </div>
       </div>
     </div>
