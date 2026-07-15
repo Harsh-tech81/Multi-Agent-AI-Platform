@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-
+import MessageBubble from "./MessageBubble";
 function MessageList() {
   const { selectedConversation } = useSelector((state) => state.conversation);
   const { messages } = useSelector((state) => state.message);
@@ -22,26 +22,26 @@ function MessageList() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-2 mt-1">
-            {[
-              "Generate Code",
-              "Generate Ideas",
-              "Summarize Text",
-            ].map((item, index) => (
-              <button
-                key={index}
-                className="text-[12px] text-slate-400 bg-white/[0.04] border border-white/[0.07] px-3 py-1.5 rounded-lg hover:bg-white/[0.08] hover:text-slate-200 transition-colors duration-150 cursor-pointer"
-              >
-                {item}
-              </button>
-            ))}
+            {["Generate Code", "Generate Ideas", "Summarize Text"].map(
+              (item, index) => (
+                <button
+                  key={index}
+                  className="text-[12px] text-slate-400 bg-white/[0.04] border border-white/[0.07] px-3 py-1.5 rounded-lg hover:bg-white/[0.08] hover:text-slate-200 transition-colors duration-150 cursor-pointer"
+                >
+                  {item}
+                </button>
+              ),
+            )}
           </div>
         </div>
       ) : (
-        messages?.messages?.map((message) => (
-          <div key={message._id} className="text-slate-300">
-            {message.content}
-          </div>
-        ))
+        <div>
+          {messages?.messages?.map((msg, index) => (
+            <div key={index}>
+             <MessageBubble role={msg?.role}  content={msg?.content} />
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
