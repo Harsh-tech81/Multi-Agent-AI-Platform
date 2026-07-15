@@ -60,7 +60,7 @@ function SideBar() {
           <Plus size={17} />
         </button>
 
-     <div className="flex-1 overflow-y-auto px-2.5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pt-5">
+        <div className="flex-1 overflow-y-auto px-2.5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pt-5">
           {conversations?.conversations?.length > 0 &&
             conversations?.conversations?.map((conversation, id) => {
               const isActive = conversation?._id === selectedConversation?._id;
@@ -77,29 +77,27 @@ function SideBar() {
                   >
                     <MessageSquare size={13} />
                   </div>
-          
                 </div>
               );
             })}
         </div>
 
         <div className="relative shrink-0">
-                {userData?.avatar && !imageError ? (
-                  <img
-                    className="w-9 h-9 rounded-[10px] object-cover border-2 border-indigo-500/25"
-                    src={userData?.avatar}
-                    onError={() => setImageError(true)}
-                    alt="User's Avatar"
-                  />
-                ) : (
-                  <div className="w-9 h-9 rounded-[10px]  bg-white/[0.06] flex items-center justify-center">
-                    <User size={15} className="text-slate-400" />
-                  </div>
-                )}
-              </div>
-
+          {userData?.avatar && !imageError ? (
+            <img
+              className="w-9 h-9 rounded-[10px] object-cover border-2 border-indigo-500/25"
+              src={userData?.avatar}
+              onError={() => setImageError(true)}
+              alt="User's Avatar"
+            />
+          ) : (
+            <div className="w-9 h-9 rounded-[10px]  bg-white/[0.06] flex items-center justify-center">
+              <User size={15} className="text-slate-400" />
+            </div>
+          )}
+        </div>
       </div>
-    )
+    );
   }
 
   return (

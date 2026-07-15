@@ -7,6 +7,7 @@ import { proxyWithHeader } from "./utils/proxyWithHeader.js";
 dotenv.config();
 import protect from "./middleware/auth.middleware.js";
 import { getCurrUser } from "./controllers/user.controller.js";
+import morgan from "morgan";
 const app = express();
 app.use(
   cors({
@@ -14,6 +15,7 @@ app.use(
     credentials: true,
   }),
 );
+app.use(morgan("dev"));
 app.use(cookieParser());
 const PORT = process.env.PORT || 8000;
 
