@@ -59,8 +59,47 @@ function SideBar() {
         >
           <Plus size={17} />
         </button>
+
+     <div className="flex-1 overflow-y-auto px-2.5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pt-5">
+          {conversations?.conversations?.length > 0 &&
+            conversations?.conversations?.map((conversation, id) => {
+              const isActive = conversation?._id === selectedConversation?._id;
+              return (
+                <div
+                  onClick={() =>
+                    dispatch(setSelectedConversation(conversation))
+                  }
+                  key={id}
+                  className={`flex items-center gap-2.5 px-3 py-2.5 rounded-[10px] mb-0.5 cursor-pointer border transition-colors duration-150 ${isActive ? "bg-indigo-500/10 border-indigo-500/[0.18] " : "bg-transparent border-transparent"}`}
+                >
+                  <div
+                    className={`flex items-center justify-center shrink-0 w-[20px] h-[20px] rounded-lg duration-150 transition-colors  ${isActive ? "text-indigo-400 bg-indigo-500/15" : "bg-white/[0.05] text-slate-500"} `}
+                  >
+                    <MessageSquare size={13} />
+                  </div>
+          
+                </div>
+              );
+            })}
+        </div>
+
+        <div className="relative shrink-0">
+                {userData?.avatar && !imageError ? (
+                  <img
+                    className="w-9 h-9 rounded-[10px] object-cover border-2 border-indigo-500/25"
+                    src={userData?.avatar}
+                    onError={() => setImageError(true)}
+                    alt="User's Avatar"
+                  />
+                ) : (
+                  <div className="w-9 h-9 rounded-[10px]  bg-white/[0.06] flex items-center justify-center">
+                    <User size={15} className="text-slate-400" />
+                  </div>
+                )}
+              </div>
+
       </div>
-    );
+    )
   }
 
   return (
@@ -139,7 +178,7 @@ function SideBar() {
           {userData ? (
             <div className="flex items-center gap-2.5 cursor-pointer rounded-xl px-3 py-2.5 hover:bg-white/[0.05] transition-colors duration-150">
               <div className="relative shrink-0">
-                {userData?.avatar || !imageError ? (
+                {userData?.avatar && !imageError ? (
                   <img
                     className="w-9 h-9 rounded-[10px] object-cover border-2 border-indigo-500/25"
                     src={userData?.avatar}
