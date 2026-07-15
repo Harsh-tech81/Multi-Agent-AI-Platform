@@ -24,8 +24,6 @@ function MessageList() {
           <div className="flex flex-wrap justify-center gap-2 mt-1">
             {[
               "Generate Code",
-              "Explain Code",
-              "Debug Code",
               "Generate Ideas",
               "Summarize Text",
             ].map((item, index) => (
