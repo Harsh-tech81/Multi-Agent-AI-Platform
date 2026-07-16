@@ -1,8 +1,15 @@
+import {
+  AIMessage,
+  HumanMessage,
+  SystemMessage,
+} from "@langchain/core/messages";
 import { getModel } from "../config/llmModels.js";
+import { getMemory } from "../config/memory.js";
+export const chatAgent = async (state) => {
+  const llm = await getModel("chat");
+  const history = await getMemory(state.conversationId);
 
-export const chatAgent= async(state) => {
-const llm =await getModel("chat");
-const Systemprompt=`You are AgentFlow AI, an Intelligent AI assistant.
+  const Systemprompt = `You are AgentFlow AI, an Intelligent AI assistant.
 
 Rules:
 -For simple questions, greetings, and short queries, respond naturally in plain text.
@@ -24,21 +31,23 @@ Formatting :
 
 `;
 
+  const messages = [new SystemMessage(Systemprompt)];
 
-
-const response = await llm.invoke([
-    {
-        "role": "system",
-        "content": Systemprompt
-    },
-    {
-        role: "human",
-        content: state.prompt
+  history.forEach((msg) => {
+    if (msg.role === "user") {
+      messages.push(new HumanMessage(msg.content));
+    } else {
+      messages.push(new AIMessage(msg.content));
     }
-]);
+  });
 
-return {
+  messages.push(new HumanMessage(state.prompt));
+//   console.log(messages);
+
+  const response = await llm.invoke(messages);
+
+  return {
     ...state,
-    aiResponse: response.content
-}
+    aiResponse: response.content,
+  };
 };
