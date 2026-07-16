@@ -10,7 +10,7 @@ import Artifact from "../components/Artifact";
 function Home() {
   const {userData} = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  console.log("User Data from Redux:", userData);
+  // console.log("User Data from Redux:", userData);
   const handleLogin = async (token) => {
     try {
       const { data } = await api.post("/api/auth/login", { token });

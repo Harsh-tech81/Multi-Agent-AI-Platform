@@ -10,7 +10,8 @@ const messageSlice=createSlice({
         state.messages=action.payload;
        },
        addMessage:(state,action)=>{
-        state.messages.push(action.payload);
+        const temp=state.messages.messages; // handle the error here state.messages.messages is an array of messages, so we need to access it correctly
+        temp.push(action.payload);
        }
     }
 });
