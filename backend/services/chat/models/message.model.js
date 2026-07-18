@@ -8,15 +8,16 @@ conversationId: {
 role : {
     enum: ["user", "assistant"],
     type: String,
-    required: true,
 },
 content: {
     type: String,
-    required: true,
-}
+},
+images:[
+    String
+]
 },{
     timestamps: true
-});
+})
 
 const Message = mongoose.model("Message", messageSchema);
 export default Message;
