@@ -27,9 +27,7 @@ function SideBar() {
     (state) => state.conversation,
   );
   const { userData } = useSelector((state) => state.user);
-  // I have used this conversations.conversations.length to check if there are any conversations in the state
-  // which sir has used only conversations.length but it is not working because conversations is an object and it has a property called conversations which is an array. So we need to use conversations.conversations.length to get the length of the array.
-  // console.log(conversations.conversations.length);
+
   useEffect(() => {
     const getConv = async () => {
       const data = await getConversations();
@@ -61,8 +59,8 @@ function SideBar() {
         </button>
 
         <div className="flex-1 overflow-y-auto px-2.5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pt-5">
-          {conversations?.conversations?.length > 0 &&
-            conversations?.conversations?.map((conversation, id) => {
+          {conversations?.length > 0 &&
+            conversations?.map((conversation, id) => {
               const isActive = conversation?._id === selectedConversation?._id;
               return (
                 <div
@@ -134,7 +132,7 @@ function SideBar() {
           </button>
         </div>
 
-        {conversations?.conversations?.length === 0 ? (
+        {conversations?.length === 0 ? (
           <div className="px-5 pt-4 pb-1.5 text-[10.5px] font-semibold uppercase tracking-widest text-slate-600">
             No Recent Conversations
           </div>
@@ -145,8 +143,8 @@ function SideBar() {
         )}
 
         <div className="flex-1 overflow-y-auto px-2.5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {conversations?.conversations?.length > 0 &&
-            conversations?.conversations?.map((conversation, id) => {
+          {conversations?.length > 0 &&
+            conversations?.map((conversation, id) => {
               const isActive = conversation?._id === selectedConversation?._id;
               return (
                 <div

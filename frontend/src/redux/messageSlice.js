@@ -7,11 +7,10 @@ const messageSlice=createSlice({
     },
     reducers:{
        setMessages:(state,action)=>{
-        state.messages=action.payload;
+        state.messages=action.payload?.messages !== undefined ? action.payload.messages : (action.payload || []);
        },
        addMessage:(state,action)=>{
-        const temp=state.messages.messages; // handle the error here state.messages.messages is an array of messages, so we need to access it correctly
-        temp.push(action.payload);
+        state.messages.push(action.payload);
        }
     }
 });

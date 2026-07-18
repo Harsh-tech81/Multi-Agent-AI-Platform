@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 function Navbar() {
   const { selectedConversation } = useSelector((state) => state.conversation);
 const {messages} = useSelector((state) => state.message);
-// here we also used messages?.messages?.length to get the length of the messages array inside the messages object. This is because the messages state is an object that contains a messages array, and we want to display the number of messages in that array. If we just used messages.length, it would return undefined since messages is not an array itself.
   return (
 <>
 {
@@ -15,7 +14,7 @@ const {messages} = useSelector((state) => state.message);
       </div>
       <div className="text-[14px] font-semibold text-slate-100 tracking-tight">{selectedConversation?.title || "New Chat"}</div>
       <div className="text-[10px] font-medium text-slate-600 bg-white/[0.04] border border-white/[0.06] px-2 py-0.5 rounded-full">
-        {messages?.messages?.length} Messages
+        {messages?.length} Messages
       </div>
     </div>
   )

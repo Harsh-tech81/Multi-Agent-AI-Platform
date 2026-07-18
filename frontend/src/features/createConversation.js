@@ -4,9 +4,9 @@ export const createConversation = async () => {
   try {
     const { data } = await api.get("/api/chat/create-conversation");
     // console.log("Conversation created:", data);
-    return data;
+    return data.conversation;
   } catch (error) {
     console.log("Error creating conversation:", error);
-    return [];
+    return null;
   }
 };
