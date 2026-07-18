@@ -2,7 +2,7 @@ import { Mic, Paperclip, Send } from "lucide-react";
 import { useState } from "react";
 import sendMessage from "../features/sendMessage";
 import { useSelector, useDispatch } from "react-redux";
-import { addMessage } from "../redux/messageSlice";
+import { addMessage, setMessages } from "../redux/messageSlice";
 import { createConversation } from "../features/createConversation";
 import {
   setSelectedConversation,
@@ -19,6 +19,7 @@ function ChatInput() {
     let conversation = selectedConversation;
     if (!conversation) {
       const conver = await createConversation(); // Create a new conversation if none is selected
+      dispatch(setMessages([]));
       dispatch(setSelectedConversation(conver)); // Set the newly created conversation as selected
       dispatch(addConversation(conver)); // Add the user's message to the new conversation
       conversation = conver;
