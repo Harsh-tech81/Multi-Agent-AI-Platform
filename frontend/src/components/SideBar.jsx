@@ -1,7 +1,6 @@
 import {
   MessageSquare,
   PanelLeftIcon,
-  PenSquare,
   Plus,
   User,
   Coins,
@@ -15,7 +14,6 @@ import {
   setConversations,
   setSelectedConversation,
 } from "../redux/conversationSlice";
-import { setMessages } from "../redux/messageSlice";
 import { setUserData } from "../redux/userSlice";
 import logOut from "../features/logOut";
 function SideBar() {
@@ -33,7 +31,8 @@ function SideBar() {
       dispatch(setConversations(data));
     };
     getConv();
-  }, [dispatch, userData?._id]);
+  }, [userData?._id]);
+
 
 
   if (collapsed) {
@@ -41,20 +40,14 @@ function SideBar() {
       <div className="hidden lg:flex items-center flex-col w-[56px] h-screen shrink-0 bg-[#0d0f14] border-r border-white/[0.06] py-4 gap-1">
         <button
           className="flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-colors duration-150 bg-transparent border-none cursor-pointer mb-1"
-          onClick={() => {
-            dispatch(setSelectedConversation(null));
-            dispatch(setMessages([]));
-          }}
+          onClick={() =>dispatch(setSelectedConversation(null)) }
         >
           <PanelRight />
         </button>
 
         <button
           className="flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-colors duration-150 bg-transparent border-none cursor-pointer"
-          onClick={() => {
-            dispatch(setSelectedConversation(null));
-            dispatch(setMessages([]));
-          }}
+          onClick={()=>() =>dispatch(setSelectedConversation(null)) }
         >
           <Plus size={17} />
         </button>
@@ -115,24 +108,13 @@ function SideBar() {
           <span className="text-[10px] font-medium text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded-full tracking-wide">
             free
           </span>
-          <button
-            className="flex items-center justify-center w-7 h-7 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] cursor-pointer transition-colors duration-150 bg-transparent border-none"
-            onClick={() => {
-              dispatch(setSelectedConversation(null));
-              dispatch(setMessages([]));
-            }}
-          >
-            <PenSquare size={14} />
-          </button>
+ 
         </div>
 
         <div className="px-4 pt-4 pb-1">
           <button
             className="w-full flex items-center justify-center gap-3 text-sm font-medium text-white bg-linear-to-br from-indigo-500 to-violet-700 rounded-xl py-[10px] border-none cursor-pointer hover:opacity-90 transition-opacity duration-150"
-            onClick={() => {
-              dispatch(setSelectedConversation(null));
-              dispatch(setMessages([]));
-            }}
+            onClick={() => dispatch(setSelectedConversation(null)) }
           >
             <Plus size={15} />
             New Chat
