@@ -32,7 +32,7 @@ function ChatInput() {
     if (!conversation) {
       const conver = await createConversation(); // Create a new conversation if none is selected
       dispatch(setMessages([]));
-      dispatch(setSelectedConversation(conver)); // Set the newly created conversation as selected
+      dispatch(setSelectedConversation({ ...conver, isNew: true })); // Set the newly created conversation as selected
       dispatch(addConversation(conver)); // Add the user's message to the new conversation
       conversation = conver;
     }
@@ -56,7 +56,13 @@ function ChatInput() {
     dispatch(addMessage({ role: "user", content: value.trim() }));
     setValue("");
     const data = await sendMessage(payload);
-    dispatch(addMessage({ role: "assistant", content: data.answer,images : data.images }));
+    dispatch(
+      addMessage({
+        role: "assistant",
+        content: data.answer,
+        images: data.images,
+      }),
+    );
     console.log("Message sent:", data);
   };
 
@@ -107,7 +113,7 @@ function ChatInput() {
             const Icon = agent.icon;
             return (
               <div
-              onClick={() => setSelectedAgent(agent.label)}
+                onClick={() => setSelectedAgent(agent.label)}
                 key={id}
                 className={`
   flex-shrink-0

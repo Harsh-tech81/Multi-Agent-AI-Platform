@@ -47,7 +47,7 @@ function SideBar() {
 
         <button
           className="flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-colors duration-150 bg-transparent border-none cursor-pointer"
-          onClick={()=>() =>dispatch(setSelectedConversation(null)) }
+          onClick={() => dispatch(setSelectedConversation(null))}
         >
           <Plus size={17} />
         </button>

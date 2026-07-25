@@ -14,6 +14,7 @@ const dispatch = useDispatch();
   useEffect(() => {
     const getMsg = async () => {
       if (selectedConversation) {
+        if (selectedConversation.isNew) return;
         const data = await getMessages(selectedConversation._id);
         dispatch(setMessages(data));
       } else {
