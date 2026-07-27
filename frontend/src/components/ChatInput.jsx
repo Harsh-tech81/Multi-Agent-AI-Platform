@@ -59,8 +59,8 @@ function ChatInput() {
     dispatch(
       addMessage({
         role: "assistant",
-        content: data.answer,
-        images: data.images,
+        content: data?.answer,
+        images: data?.images,
       }),
     );
     console.log("Message sent:", data);

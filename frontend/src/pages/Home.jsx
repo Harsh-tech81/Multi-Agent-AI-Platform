@@ -27,7 +27,7 @@ function Home() {
   };
 
   return (
-    <div className="flex h-screen bg-[#0d0f14] text-white overflow-hidden">
+    <div className="flex  h-screen bg-[#0d0f14] text-white overflow-hidden">
 
 <SideBar/>
 <ChatArea/>
