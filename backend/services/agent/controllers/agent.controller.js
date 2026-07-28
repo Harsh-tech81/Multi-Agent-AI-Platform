@@ -12,8 +12,8 @@ export const agent = async (req, res) => {
       role: "user",
     });
     const result = await graph.invoke({ prompt, conversationId, agent });
-    const response = result.aiResponse;
-    const images = result.images || [];
+    const response = result?.aiResponse;
+    const images = result?.images || [];
 
     if (response) {
       await addMessage(conversationId, "user", prompt);
@@ -22,13 +22,14 @@ export const agent = async (req, res) => {
         content: response,
         conversationId,
         role: "assistant",
-        images: result.images,
+        images: result?.images,
+        artifacts: result?.artifacts || [],
       });
     }
 
     return res
       .status(200)
-      .json({ answer: response, images: images });
+      .json({ answer: response, images: images, artifacts: result?.artifacts || [] });
   } catch (err) {
     res.status(500).json({ error: "Agent Error", message: err });
   }

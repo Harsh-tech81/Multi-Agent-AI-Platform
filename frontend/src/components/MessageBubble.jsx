@@ -4,7 +4,7 @@ import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { Check, Copy, ExternalLink, X } from "lucide-react";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-function MessageBubble({ role, content, images }) {
+function MessageBubble({ role, content = "", images = [] }) {
 
   const isUser = role === "user";
   const [lightBox, setLightBox] = useState(null);

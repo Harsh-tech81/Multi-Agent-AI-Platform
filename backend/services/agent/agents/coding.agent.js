@@ -21,8 +21,8 @@ export const codingAgent = async (state) => {
     ${state.prompt}
     
     `);
-  const intent = intentRes.content;
-  if (intent === "CODE_GENERATION") {
+  const intent = intentRes.content?.trim() || "";
+  if (intent.includes("CODE_GENERATION")) {
     const prompt = `
 You are AgentFlow AI Coding Agent.
 Generate the requested project.
@@ -81,20 +81,49 @@ ${state.prompt}
 
 `;
 
-const res = await llm.invoke(prompt);
-const data=JSON.parse(res.content);
-return{
-    ...state,
-    aiResponse:"Code generated successfully.",
-    artifacts:[
+    const res = await llm.invoke(prompt);
+    const data = JSON.parse(res.content);
+    return {
+      ...state,
+      aiResponse: "Code generated successfully.",
+      artifacts: [
         {
-            id:Date.now(),
-            type:"Project",
-            files:data.files || [],
-        }
-    ],
-    
-}
-
+          id: Date.now(),
+          type: "Project",
+          files: data.files || [],
+        },
+      ],
+    };
   }
+
+  const res = await llm.invoke(`
+    The user's request is: ${intent}
+
+    Return Markdown only.
+    Never generate project files.
+    Use headings like:
+    # Overview
+    ## Explanation
+    ## Problems
+    ## Improvements
+    ## Best Practices
+## Optimized Code(if needed)
+    User Request:
+    ${state.prompt}
+    `)
+
+
+
+const data = res.content;
+  return {
+    ...state,
+    aiResponse: data,
+    artifacts: []
+  };
+
+
+
+
+
+
 };
