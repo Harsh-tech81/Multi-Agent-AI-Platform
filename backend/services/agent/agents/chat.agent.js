@@ -10,10 +10,12 @@ export const chatAgent = async (state) => {
   const llm = await getModel("chat");
   const history = await getMemory(state.conversationId);
 
-  const searchContext = state.searchResults
+  const searchContext = state.searchResults && state.searchResults.length > 0
     ? `
 Web Search Results:
-${JSON.stringify(state.searchResults)}
+${state.searchResults
+  .map((r, i) => `${i + 1}. ${r.title}\n   ${r.content}\n   Source: ${r.url}`)
+  .join("\n\n")}
 Answer the user using only the above search results.
 `
     : "";
@@ -48,6 +50,7 @@ Formatting :
   const messages = [new SystemMessage(Systemprompt)];
 
   history.forEach((msg) => {
+    if (!msg.content) return;
     if (msg.role === "user") {
       messages.push(new HumanMessage(msg.content));
     } else {

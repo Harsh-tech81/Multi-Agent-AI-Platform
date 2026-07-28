@@ -14,14 +14,18 @@ export const agent = async (req, res) => {
     const result = await graph.invoke({ prompt, conversationId, agent });
     const response = result.aiResponse;
     const images = result.images || [];
-    await addMessage(conversationId, "user", prompt);
-    await addMessage(conversationId, "assistant", response);
-    await axios.post(`${process.env.CHAT_SERVICE_URL}/save-message`, {
-      content: response,
-      conversationId,
-      role: "assistant",
-      images: result.images,
-    });
+
+    if (response) {
+      await addMessage(conversationId, "user", prompt);
+      await addMessage(conversationId, "assistant", response);
+      await axios.post(`${process.env.CHAT_SERVICE_URL}/save-message`, {
+        content: response,
+        conversationId,
+        role: "assistant",
+        images: result.images,
+      });
+    }
+
     return res
       .status(200)
       .json({ answer: response, images: images });

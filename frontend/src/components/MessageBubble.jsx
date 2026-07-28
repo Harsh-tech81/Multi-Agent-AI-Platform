@@ -2,7 +2,7 @@ import Markdown from "react-markdown";
 import { useEffect, useState } from "react";
 import Prism from "prismjs";
 import remarkGfm from "remark-gfm";
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { Check, Copy, ExternalLink, X } from "lucide-react";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 function MessageBubble({ role, content, images }) {
