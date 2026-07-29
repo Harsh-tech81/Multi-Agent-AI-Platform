@@ -21,7 +21,7 @@ function MessageBubble({ role, content = "", images = [] }) {
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div
-        className={`w-fit max-w-[92vw] md:max-w-[72%] px-4 py-2.5 rounded-2xl break-words overflow-hidden leading-relaxed ${isUser ? "bg-gradient-to-br from-indigo-500 to-violet-700 text-white rounded-tr-sm" : " text-slate-200 rounded-tl-sm"}`}
+        className={`w-fit max-w-[92vw] md:max-w-[72%] px-4 py-2.5 rounded-2xl break-words overflow-hidden leading-relaxed ${isUser ? "bg-emerald-600 text-white rounded-tr-sm" : " text-slate-200 rounded-tl-sm"}`}
       >
         {images.length > 0 && (
           <div className="flex flex-wrap gap-3 mt-4">
@@ -81,7 +81,7 @@ function MessageBubble({ role, content = "", images = [] }) {
                 href={href}
                 target="_blank"
                 rel=" noreferrer"
-                className="text-indigo-400 inline-flex items-center gap-1 hover:text-indigo-300 underline"
+                className="text-emerald-400 inline-flex items-center gap-1 hover:text-emerald-300 underline"
               >
                 {children}
                 <ExternalLink size={14} />
@@ -91,7 +91,7 @@ function MessageBubble({ role, content = "", images = [] }) {
               const value = String(children).trim();
               if (!className) {
                 return (
-                  <code className="px-1.5 py-0.5 rounded bg-white/10 text-indigo-200">
+                  <code className="px-1.5 py-0.5 rounded bg-white/10 text-emerald-200">
                     {value}
                   </code>
                 );

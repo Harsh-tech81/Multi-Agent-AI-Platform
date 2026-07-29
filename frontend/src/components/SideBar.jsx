@@ -37,7 +37,7 @@ function SideBar() {
 
   if (collapsed) {
     return (
-      <div className="hidden lg:flex items-center flex-col w-[56px] h-screen shrink-0 bg-[#0d0f14] border-r border-white/[0.06] py-4 gap-1">
+      <div className="hidden lg:flex items-center flex-col w-[56px] h-screen shrink-0 bg-[#111215] border-r border-white/[0.06] py-4 gap-1">
         <button
           className="flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-colors duration-150 bg-transparent border-none cursor-pointer mb-1"
           onClick={() =>dispatch(setSelectedConversation(null)) }
@@ -62,10 +62,10 @@ function SideBar() {
                     dispatch(setSelectedConversation(conversation))
                   }
                   key={id}
-                  className={`flex items-center gap-2.5 px-3 py-2.5 rounded-[10px] mb-0.5 cursor-pointer border transition-colors duration-150 ${isActive ? "bg-indigo-500/10 border-indigo-500/[0.18] " : "bg-transparent border-transparent"}`}
+                  className={`flex items-center gap-2.5 px-3 py-2.5 rounded-[10px] mb-0.5 cursor-pointer border transition-colors duration-150 ${isActive ? "bg-emerald-500/10 border-emerald-500/[0.18] " : "bg-transparent border-transparent"}`}
                 >
                   <div
-                    className={`flex items-center justify-center shrink-0 w-[20px] h-[20px] rounded-lg duration-150 transition-colors  ${isActive ? "text-indigo-400 bg-indigo-500/15" : "bg-white/[0.05] text-slate-500"} `}
+                    className={`flex items-center justify-center shrink-0 w-[20px] h-[20px] rounded-lg duration-150 transition-colors  ${isActive ? "text-emerald-400 bg-emerald-500/15" : "bg-white/[0.05] text-slate-500"} `}
                   >
                     <MessageSquare size={13} />
                   </div>
@@ -77,7 +77,7 @@ function SideBar() {
         <div className="relative shrink-0">
           {userData?.avatar && !imageError ? (
             <img
-              className="w-9 h-9 rounded-[10px] object-cover border-2 border-indigo-500/25"
+              className="w-9 h-9 rounded-[10px] object-cover border-2 border-emerald-500/25"
               src={userData?.avatar}
               onError={() => setImageError(true)}
               alt="User's Avatar"
@@ -93,7 +93,7 @@ function SideBar() {
   }
 
   return (
-    <div className="fixed lg:static inset-y-0 left-0 z-50 w-[270px] h-screen shrink-0 bg-[#0d0f14] border-r border-white/[0.06] ">
+    <div className="fixed lg:static inset-y-0 left-0 z-50 w-[270px] h-screen shrink-0 bg-[#111215] border-r border-white/[0.06] ">
       <div className="flex flex-col h-full">
         <div className="flex items-center gap-2.5 px-4 py-4 border-b border-white/[0.06]">
           <div
@@ -105,7 +105,7 @@ function SideBar() {
           <span className="text-[16px] font-semibold tracking-tight text-slate-100 flex-1 cursor-pointer">
             AgentFlow AI
           </span>
-          <span className="text-[10px] font-medium text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded-full tracking-wide">
+          <span className="text-[10px] font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full tracking-wide">
             free
           </span>
  
@@ -113,7 +113,7 @@ function SideBar() {
 
         <div className="px-4 pt-4 pb-1">
           <button
-            className="w-full flex items-center justify-center gap-3 text-sm font-medium text-white bg-linear-to-br from-indigo-500 to-violet-700 rounded-xl py-[10px] border-none cursor-pointer hover:opacity-90 transition-opacity duration-150"
+            className="w-full flex items-center justify-center gap-3 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl py-[10px] border-none cursor-pointer transition-colors duration-150"
             onClick={() => dispatch(setSelectedConversation(null)) }
           >
             <Plus size={15} />
@@ -141,10 +141,10 @@ function SideBar() {
                     dispatch(setSelectedConversation(conversation))
                   }
                   key={id}
-                  className={`flex items-center gap-2.5 px-3 py-2.5 rounded-[10px] mb-0.5 cursor-pointer border transition-colors duration-150 ${isActive ? "bg-indigo-500/10 border-indigo-500/[0.18] " : "bg-transparent border-transparent"}`}
+                  className={`flex items-center gap-2.5 px-3 py-2.5 rounded-[10px] mb-0.5 cursor-pointer border transition-colors duration-150 ${isActive ? "bg-emerald-500/10 border-emerald-500/[0.18] " : "bg-transparent border-transparent"}`}
                 >
                   <div
-                    className={`flex items-center justify-center shrink-0 w-[28px] h-[28px] rounded-lg duration-150 transition-colors  ${isActive ? "text-indigo-400 bg-indigo-500/15" : "bg-white/[0.05] text-slate-500"} `}
+                    className={`flex items-center justify-center shrink-0 w-[28px] h-[28px] rounded-lg duration-150 transition-colors  ${isActive ? "text-emerald-400 bg-emerald-500/15" : "bg-white/[0.05] text-slate-500"} `}
                   >
                     <MessageSquare size={13} />
                   </div>
@@ -165,7 +165,7 @@ function SideBar() {
               <div className="relative shrink-0">
                 {userData?.avatar && !imageError ? (
                   <img
-                    className="w-9 h-9 rounded-[10px] object-cover border-2 border-indigo-500/25"
+                    className="w-9 h-9 rounded-[10px] object-cover border-2 border-emerald-500/25"
                     src={userData?.avatar}
                     onError={() => setImageError(true)}
                     alt="User's Avatar"

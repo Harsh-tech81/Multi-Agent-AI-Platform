@@ -91,6 +91,7 @@ ${state.prompt}
           id: Date.now(),
           type: "Project",
           files: data.files || [],
+          title: state.prompt,
         },
       ],
     };
@@ -110,20 +111,12 @@ ${state.prompt}
 ## Optimized Code(if needed)
     User Request:
     ${state.prompt}
-    `)
+    `);
 
-
-
-const data = res.content;
+  const data = res.content;
   return {
     ...state,
     aiResponse: data,
-    artifacts: []
+    artifacts: [],
   };
-
-
-
-
-
-
 };
