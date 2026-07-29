@@ -3,22 +3,25 @@ import MessageList from "./MessageList";
 import Navbar from "./Navbar";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import  getMessages from "../features/getMessages";
-import { setMessages } from "../redux/messageSlice";
-
+import getMessages from "../features/getMessages";
+import { setMessages, setArtifacts } from "../redux/messageSlice";
 
 function ChatArea() {
   const { selectedConversation } = useSelector((state) => state.conversation);
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getMsg = async () => {
       if (selectedConversation) {
         if (selectedConversation.isNew) return;
-        const data = await getMessages(selectedConversation._id);
+        const data = await getMessages(selectedConversation?._id);
         dispatch(setMessages(data));
-      } else {
-        dispatch(setMessages([]));
+
+        const latestArtifactMessages = [...data]
+          .reverse()
+          .find((msg) => msg.artifacts && msg.artifacts.length > 0);
+
+        dispatch(setArtifacts(latestArtifactMessages?.artifacts || []));
       }
     };
     getMsg();

@@ -40,7 +40,10 @@ function SideBar() {
       <div className="hidden lg:flex items-center flex-col w-[56px] h-screen shrink-0 bg-[#111215] border-r border-white/[0.06] py-4 gap-1">
         <button
           className="flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-colors duration-150 bg-transparent border-none cursor-pointer mb-1"
-          onClick={() =>dispatch(setSelectedConversation(null)) }
+          onClick={() => {
+            setCollapsed(false);
+            dispatch(setSelectedConversation(null));
+          }}
         >
           <PanelRight />
         </button>
@@ -98,7 +101,7 @@ function SideBar() {
         <div className="flex items-center gap-2.5 px-4 py-4 border-b border-white/[0.06]">
           <div
             className="hidden lg:flex items-center justify-center w-7 h-7 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] cursor-pointer transition-colors duration-150 bg-transparent border-none"
-            onClick={() => setCollapsed(true)}
+            onClick={() => setCollapsed(!collapsed)}
           >
             <PanelLeftIcon />
           </div>
