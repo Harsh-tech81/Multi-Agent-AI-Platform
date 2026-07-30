@@ -39,7 +39,7 @@ User Request: ${state.prompt}
     const buffer = Buffer.from(imageRes.data);
     const fileName = `image-${Date.now()}.png`;
     await uploadToS3(fileName, buffer, "image/png");
-    const downloadUrl = await getFromS3(fileName, 24 * 60 * 60); // 24 hours
+    const downloadUrl = await getFromS3(fileName, 24 * 60 ); // 24 hours
     return {
       ...state,
       aiResponse: `
