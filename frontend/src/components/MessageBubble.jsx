@@ -5,7 +5,6 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { Check, Copy, ExternalLink, X } from "lucide-react";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 function MessageBubble({ role, content = "", images = [] }) {
-
   const isUser = role === "user";
   const [lightBox, setLightBox] = useState(null);
   const [copyCode, setCopyCode] = useState("");
@@ -135,6 +134,21 @@ function MessageBubble({ role, content = "", images = [] }) {
                     {value}
                   </SyntaxHighlighter>
                 </div>
+              );
+            },
+            img: ({ src }) => {
+              if (!src) return null;
+              return (
+                <img
+                 
+                  src={src}
+                  loading="lazy"
+                  onClick={() => setLightBox(src)}
+                  onError={(e) => {
+                    e.currentTarget.remove();
+                  }}
+                  className="w-40 h-28 rounded-xl object-cover border border-white/10 cursor-zoom-in hover:opacity-90 transition "
+                />
               );
             },
           }}

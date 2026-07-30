@@ -1,6 +1,9 @@
 import { getModel, retryInvoke } from "../config/llmModels.js";
 
 export const codingAgent = async (state) => {
+  try{
+
+  
   const intentllm = await getModel("intent");
   const llm = await getModel("coding");
   //   first find the intent of the user prompt using a llm model.
@@ -129,4 +132,11 @@ ${state.prompt}
     aiResponse: data,
     artifacts: [],
   };
+}catch(err){
+  console.error("Error in codingAgent:", err);
+  return {
+    ...state,
+    aiResponse: "Sorry, something went wrong. Please try again.",
+  }
+}
 };

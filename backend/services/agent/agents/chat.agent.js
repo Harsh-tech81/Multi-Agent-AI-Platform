@@ -7,6 +7,9 @@ import { getModel, retryInvoke } from "../config/llmModels.js";
 import { getMemory } from "../config/memory.js";
 
 export const chatAgent = async (state) => {
+  try{
+
+  
   const llm = await getModel("chat");
   const history = await getMemory(state.conversationId);
 
@@ -67,4 +70,11 @@ Formatting :
     ...state,
     aiResponse: response.content,
   };
+}catch(err){
+  console.error("Error in chatAgent:", err);
+  return {
+    ...state,
+    aiResponse: "Sorry, something went wrong. Please try again.",
+  }
+}
 };
