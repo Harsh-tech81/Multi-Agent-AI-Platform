@@ -1,10 +1,10 @@
-import { getModel } from "../config/llmModels.js";
+import { getModel, retryInvoke } from "../config/llmModels.js";
 
 export const codingAgent = async (state) => {
   const intentllm = await getModel("intent");
   const llm = await getModel("coding");
   //   first find the intent of the user prompt using a llm model.
-  const intentRes = await intentllm.invoke(`
+  const intentRes = await retryInvoke(intentllm, `
     You are an intent classifier.
 
     Return ONLY one of these values.
@@ -46,6 +46,11 @@ Rules:
 - Beautiful spacing
 - Single page unless user asks otherwise.
 
+IMAGES 
+==================
+Always use real unsplash Images.
+Never use placeholders.
+
 RETURN ONLY VALID JSON.
 Schema:
 
@@ -81,8 +86,13 @@ ${state.prompt}
 
 `;
 
-    const res = await llm.invoke(prompt);
-    const data = JSON.parse(res.content);
+    const res = await retryInvoke(llm, prompt);
+    // Strip markdown code fences if LLM wraps the JSON (e.g. ```json ... ```)
+    let raw = res.content.trim();
+    if (raw.startsWith("```")) {
+      raw = raw.replace(/^```(?:json)?\s*\n?/, "").replace(/\n?```\s*$/, "");
+    }
+    const data = JSON.parse(raw);
     return {
       ...state,
       aiResponse: "Code generated successfully.",
@@ -97,7 +107,7 @@ ${state.prompt}
     };
   }
 
-  const res = await llm.invoke(`
+  const res = await retryInvoke(llm, `
     The user's request is: ${intent}
 
     Return Markdown only.

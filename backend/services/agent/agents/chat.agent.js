@@ -3,7 +3,7 @@ import {
   HumanMessage,
   SystemMessage,
 } from "@langchain/core/messages";
-import { getModel } from "../config/llmModels.js";
+import { getModel, retryInvoke } from "../config/llmModels.js";
 import { getMemory } from "../config/memory.js";
 
 export const chatAgent = async (state) => {
@@ -61,7 +61,7 @@ Formatting :
   messages.push(new HumanMessage(state.prompt));
   //   console.log(messages);
 
-  const response = await llm.invoke(messages);
+  const response = await retryInvoke(llm, messages);
 
   return {
     ...state,

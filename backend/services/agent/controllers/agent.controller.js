@@ -31,6 +31,6 @@ export const agent = async (req, res) => {
       .status(200)
       .json({ answer: response, images: images, artifacts: result?.artifacts || [] });
   } catch (err) {
-    res.status(500).json({ error: "Agent Error", message: err });
+    res.status(500).json({ error: "Agent Error", message: err?.message || "Something went wrong" });
   }
 };

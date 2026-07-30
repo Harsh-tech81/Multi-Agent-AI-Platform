@@ -1,4 +1,4 @@
-import { getModel } from "../config/llmModels.js";
+import { getModel, retryInvoke } from "../config/llmModels.js";
 
 export const router = async (state) => {
   
@@ -66,9 +66,16 @@ vision :
  User Query: ${state.prompt}
   `;
 
-  const response = await llm.invoke(prompt);
+  const response = await retryInvoke(llm, prompt);
+  const raw = response.content.trim().toLowerCase();
+  
+  // Extract valid agent name even if LLM returns extra text
+  const validAgents = ['chat', 'search', 'coding', 'pdf', 'ppt', 'vision'];
+  const matched = validAgents.find((a) => raw === a || raw.includes(a));
+  const agent = matched || 'chat'; // fallback to chat if no match
+
   return {
     ...state,
-    agent: response.content.trim().toLowerCase(),
+    agent,
   };
 };

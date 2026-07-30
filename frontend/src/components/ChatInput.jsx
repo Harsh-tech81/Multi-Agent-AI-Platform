@@ -56,6 +56,17 @@ function ChatInput() {
     dispatch(addMessage({ role: "user", content: value.trim() }));
     setValue("");
     const data = await sendMessage(payload);
+
+    if (!data) {
+      dispatch(
+        addMessage({
+          role: "assistant",
+          content: "Sorry, something went wrong. Please try again.",
+        }),
+      );
+      return;
+    }
+
     dispatch(setArtifacts(data?.artifacts || []));
     dispatch(
       addMessage({
