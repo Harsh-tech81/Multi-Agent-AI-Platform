@@ -3,6 +3,8 @@ import axios from "axios";
 import { uploadToS3 } from "../utils/uploadToS3.js";
 import { getFromS3 } from "../utils/getFromS3.js";
 import { generatePdf } from "../utils/generatePdf.js";
+import { parseLLMJson } from "../utils/parseLLMJson.js";
+
 export const pdfAgent = async (state) => {
   try {
     const llm = await getModel("pdf");
@@ -35,7 +37,7 @@ ${state.prompt}
 
 `,
     );
-    const data = JSON.parse(res.content);
+    const data = parseLLMJson(res.content);
 
     const pdfBuffer = await generatePdf(data);
     const fileName = `document-${Date.now()}.pdf`;

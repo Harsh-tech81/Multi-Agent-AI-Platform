@@ -3,6 +3,7 @@ import axios from "axios";
 import { uploadToS3 } from "../utils/uploadToS3.js";
 import { getFromS3 } from "../utils/getFromS3.js";
 import { generatePPT } from "../utils/generatePPT.js";
+import { parseLLMJson } from "../utils/parseLLMJson.js";
 
 export const pptAgent = async (state) => {
   try {
@@ -47,7 +48,7 @@ ${state.prompt}
 
       `,
     );
-    const data = JSON.parse(res.content);
+    const data = parseLLMJson(res.content);
     const ppt = await generatePPT(data);
     const buffer = await ppt.write({
       outputType: "nodebuffer",
