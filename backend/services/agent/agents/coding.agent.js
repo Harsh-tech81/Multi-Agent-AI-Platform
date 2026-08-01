@@ -22,10 +22,11 @@ export const codingAgent = async (state) => {
 
     User Request:
     ${state.prompt}
-    `
+    `,
     );
     const intent = intentRes.content?.trim() || "";
     if (intent.includes("CODE_GENERATION")) {
+      
       const prompt = `
 You are AgentFlow AI Coding Agent.
 Generate the requested project.
@@ -96,7 +97,9 @@ ${state.prompt}
       };
     }
 
-  const res = await retryInvoke(llm, `
+    const res = await retryInvoke(
+      llm,
+      `
     The user's request is: ${intent}
 
     Return Markdown only.
@@ -110,19 +113,20 @@ ${state.prompt}
 ## Optimized Code(if needed)
     User Request:
     ${state.prompt}
-    `);
+    `,
+    );
 
-  const data = res.content;
-  return {
-    ...state,
-    aiResponse: data,
-    artifacts: [],
-  };
-}catch(err){
-  console.error("Error in codingAgent:", err);
-  return {
-    ...state,
-    aiResponse: "Sorry, something went wrong. Please try again.",
+    const data = res.content;
+    return {
+      ...state,
+      aiResponse: data,
+      artifacts: [],
+    };
+  } catch (err) {
+    console.error("Error in codingAgent:", err);
+    return {
+      ...state,
+      aiResponse: "Sorry, something went wrong. Please try again.",
+    };
   }
-}
 };
