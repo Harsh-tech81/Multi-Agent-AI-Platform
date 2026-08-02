@@ -1,11 +1,29 @@
 import { getModel, retryInvoke } from "../config/llmModels.js";
 
 export const router = async (state) => {
-  
   if (state.agent && state.agent !== "auto") {
     return {
       ...state,
       agent: state.agent,
+    };
+  }
+
+  if (state.file.mimetype === "application/pdf") {
+    return {
+      ...state,
+      agent: "pdfRag",
+    };
+  }
+
+  if (
+    state.file.mimetype === "image/png" ||
+    state.file.mimetype === "image/jpeg" ||
+    state.file.mimetype === "image/jpg" ||
+    state.file.mimetype === "image/webp"
+  ) {
+    return {
+      ...state,
+      agent: "imageAnalyzer",
     };
   }
 
@@ -68,11 +86,11 @@ vision :
 
   const response = await retryInvoke(llm, prompt);
   const raw = response.content.trim().toLowerCase();
-  
+
   // Extract valid agent name even if LLM returns extra text
-  const validAgents = ['chat', 'search', 'coding', 'pdf', 'ppt', 'vision'];
+  const validAgents = ["chat", "search", "coding", "pdf", "ppt", "vision"];
   const matched = validAgents.find((a) => raw === a || raw.includes(a));
-  const agent = matched || 'chat'; // fallback to chat if no match
+  const agent = matched || "chat"; // fallback to chat if no match
 
   return {
     ...state,
