@@ -7,24 +7,26 @@ export const router = async (state) => {
       agent: state.agent,
     };
   }
+  // If no file was uploaded, skip file-based routing
+  if (state.file) {
+    if (state.file.mimetype === "application/pdf") {
+      return {
+        ...state,
+        agent: "pdfRag",
+      };
+    }
 
-  if (state.file.mimetype === "application/pdf") {
-    return {
-      ...state,
-      agent: "pdfRag",
-    };
-  }
-
-  if (
-    state.file.mimetype === "image/png" ||
-    state.file.mimetype === "image/jpeg" ||
-    state.file.mimetype === "image/jpg" ||
-    state.file.mimetype === "image/webp"
-  ) {
-    return {
-      ...state,
-      agent: "imageAnalyzer",
-    };
+    if (
+      state.file.mimetype === "image/png" ||
+      state.file.mimetype === "image/jpeg" ||
+      state.file.mimetype === "image/jpg" ||
+      state.file.mimetype === "image/webp"
+    ) {
+      return {
+        ...state,
+        agent: "imageAnalyzer",
+      };
+    }
   }
 
   const llm = await getModel("router");
