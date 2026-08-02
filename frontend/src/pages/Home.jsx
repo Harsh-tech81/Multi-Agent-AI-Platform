@@ -21,9 +21,13 @@ function Home() {
   };
 
   const googleLogin = async () => {
-    const data = await signInWithPopup(auth, googleProvider);
-    const token = await data.user.getIdToken();
-    await handleLogin(token);
+    try {
+      const data = await signInWithPopup(auth, googleProvider);
+      const token = await data.user.getIdToken();
+      await handleLogin(token);
+    } catch (error) {
+      console.error("Google login error:", error);
+    }
   };
 
   return (

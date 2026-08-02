@@ -1,5 +1,5 @@
 import { searchTool } from "../config/tavily.js";
-
+import { deductCredits } from "../utils/deductCredits.js";
 export const searchAgent = async (state) => {
   try {
     const raw = await searchTool.invoke({
@@ -8,7 +8,7 @@ export const searchAgent = async (state) => {
 
     // TavilySearch tool returns a JSON string — parse it
     const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
-
+  await deductCredits(state.userId,"search");
     console.log("search results", parsed);
 
     // images array contains objects: { url, description } — extract just URLs

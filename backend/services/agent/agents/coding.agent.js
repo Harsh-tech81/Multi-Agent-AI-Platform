@@ -1,6 +1,6 @@
 import { getModel, retryInvoke } from "../config/llmModels.js";
 import { parseLLMJson } from "../utils/parseLLMJson.js";
-
+import { deductCredits } from "../utils/deductCredits.js";
 export const codingAgent = async (state) => {
   try {
     const intentllm = await getModel("intent");
@@ -82,6 +82,7 @@ ${state.prompt}
 
       const res = await retryInvoke(llm, prompt);
       const data = parseLLMJson(res.content);
+  await deductCredits(state.userId,"coding"); // Deduct credits for the user before processing the chat request
 
       return {
         ...state,
@@ -117,6 +118,7 @@ ${state.prompt}
     );
 
     const data = res.content;
+      await deductCredits(state.userId,"coding");
     return {
       ...state,
       aiResponse: data,

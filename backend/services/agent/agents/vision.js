@@ -2,6 +2,7 @@ import { getModel, retryInvoke } from "../config/llmModels.js";
 import axios from "axios";
 import { uploadToS3 } from "../utils/uploadToS3.js";
 import { getFromS3 } from "../utils/getFromS3.js";
+import { deductCredits } from "../utils/deductCredits.js";
 export const visionAgent = async (state) => {
   try {
     const llm = await getModel("image");
@@ -36,6 +37,7 @@ User Request: ${state.prompt}
     const prompt = res?.content?.trim() || "";
     const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`;
     const imageRes = await axios.get(imageUrl, { responseType: "arraybuffer" });
+      await deductCredits(state.userId,"vision"); // Deduct credits for the user before processing the chat request
     const buffer = Buffer.from(imageRes.data);
     const fileName = `image-${Date.now()}.png`;
     await uploadToS3(fileName, buffer, "image/png");

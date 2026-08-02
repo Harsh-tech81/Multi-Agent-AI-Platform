@@ -28,6 +28,10 @@ function SideBar() {
   const { userData } = useSelector((state) => state.user);
 
   useEffect(() => {
+    if (!userData?._id) {
+      dispatch(setConversations([]));
+      return;
+    }
     const getConv = async () => {
       const data = await getConversations();
       dispatch(setConversations(data));

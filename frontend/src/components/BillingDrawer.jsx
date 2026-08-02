@@ -123,7 +123,7 @@ function BillingDrawer({ open, onClose }) {
                   Upgrade
                 </button>
               </div>
-                      
+
               <div className="rounded-xl border border-white/10 p-4">
                 <h3 className="text-white font-semibold">Pro Plan</h3>
 
@@ -135,10 +135,8 @@ function BillingDrawer({ open, onClose }) {
                 >
                   Upgrade
                 </button>
-           
+              </div>
             </div>
-            </div>
-  
           </motion.div>
         </>
       )}

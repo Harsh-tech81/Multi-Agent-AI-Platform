@@ -5,13 +5,13 @@ import { addMessage } from "../config/memory.js";
 export const agent = async (req, res) => {
   try {
     const { prompt, conversationId, agent } = req.body;
-
+const userId = req.headers["x-user-id"] || req.user?.id; // Get userId from headers or req.user
     await axios.post(`${process.env.CHAT_SERVICE_URL}/save-message`, {
       content: prompt,
       conversationId,
       role: "user",
     });
-    const result = await graph.invoke({ prompt, conversationId, agent });
+    const result = await graph.invoke({ prompt, conversationId, agent, userId });
     const response = result?.aiResponse;
     const images = result?.images || [];
 

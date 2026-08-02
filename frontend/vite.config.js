@@ -8,4 +8,9 @@ import os from 'node:os'
 export default defineConfig({
   plugins: [react(),  tailwindcss()],
   cacheDir: resolve(os.tmpdir(), 'cortex-ai-vite-cache'),
+  server: {
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
+    },
+  },
 })

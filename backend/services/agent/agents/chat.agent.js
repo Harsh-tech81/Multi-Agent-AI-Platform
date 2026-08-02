@@ -5,25 +5,30 @@ import {
 } from "@langchain/core/messages";
 import { getModel, retryInvoke } from "../config/llmModels.js";
 import { getMemory } from "../config/memory.js";
-
+import { deductCredits } from "../utils/deductCredits.js";
 export const chatAgent = async (state) => {
-  try{
 
-  
-  const llm = await getModel("chat");
-  const history = await getMemory(state.conversationId);
 
-  const searchContext = state.searchResults && state.searchResults.length > 0
-    ? `
+
+
+  try {
+
+
+    const llm = await getModel("chat");
+    const history = await getMemory(state.conversationId);
+
+    const searchContext =
+      state.searchResults && state.searchResults.length > 0
+        ? `
 Web Search Results:
 ${state.searchResults
   .map((r, i) => `${i + 1}. ${r.title}\n   ${r.content}\n   Source: ${r.url}`)
   .join("\n\n")}
 Answer the user using only the above search results.
 `
-    : "";
+        : "";
 
-  const Systemprompt = `You are AgentFlow AI, an Intelligent AI assistant.
+    const Systemprompt = `You are AgentFlow AI, an Intelligent AI assistant.
 
   ${searchContext}
   If searchContext exists : 
@@ -50,31 +55,32 @@ Formatting :
 
 `;
 
-  const messages = [new SystemMessage(Systemprompt)];
+    const messages = [new SystemMessage(Systemprompt)];
 
-  history.forEach((msg) => {
-    if (!msg.content) return;
-    if (msg.role === "user") {
-      messages.push(new HumanMessage(msg.content));
-    } else {
-      messages.push(new AIMessage(msg.content));
-    }
-  });
+    history.forEach((msg) => {
+      if (!msg.content) return;
+      if (msg.role === "user") {
+        messages.push(new HumanMessage(msg.content));
+      } else {
+        messages.push(new AIMessage(msg.content));
+      }
+    });
 
-  messages.push(new HumanMessage(state.prompt));
-  //   console.log(messages);
+    messages.push(new HumanMessage(state.prompt));
+    //   console.log(messages);
 
-  const response = await retryInvoke(llm, messages);
+    const response = await retryInvoke(llm, messages);
+  await deductCredits(state.userId,"chat"); // Deduct credits for the user before processing the chat request
 
-  return {
-    ...state,
-    aiResponse: response.content,
-  };
-}catch(err){
-  console.error("Error in chatAgent:", err);
-  return {
-    ...state,
-    aiResponse: "Sorry, something went wrong. Please try again.",
+    return {
+      ...state,
+      aiResponse: response.content,
+    };
+  } catch (err) {
+    console.error("Error in chatAgent:", err);
+    return {
+      ...state,
+      aiResponse: "Sorry, something went wrong. Please try again.",
+    };
   }
-}
 };
