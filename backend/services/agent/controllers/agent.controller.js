@@ -5,14 +5,20 @@ import { addMessage } from "../config/memory.js";
 export const agent = async (req, res) => {
   try {
     const { prompt, conversationId, agent } = req.body;
-    const file=req.file; // Get the uploaded file from the request
-const userId = req.headers["x-user-id"] || req.user?.id; // Get userId from headers or req.user
+    const file = req.file; // Get the uploaded file from the request
+    const userId = req.headers["x-user-id"] || req.user?.id; // Get userId from headers or req.user
     await axios.post(`${process.env.CHAT_SERVICE_URL}/save-message`, {
       content: prompt,
       conversationId,
       role: "user",
     });
-    const result = await graph.invoke({ prompt, conversationId, agent, userId ,file});
+    const result = await graph.invoke({
+      prompt,
+      conversationId,
+      agent,
+      userId,
+      file,
+    });
     const response = result?.aiResponse;
     const images = result?.images || [];
 
@@ -30,8 +36,17 @@ const userId = req.headers["x-user-id"] || req.user?.id; // Get userId from head
 
     return res
       .status(200)
-      .json({ answer: response, images: images, artifacts: result?.artifacts || [] });
+      .json({
+        answer: response,
+        images: images,
+        artifacts: result?.artifacts || [],
+      });
   } catch (err) {
-    res.status(500).json({ error: "Agent Error", message: err?.message || "Something went wrong" });
+    res
+      .status(500)
+      .json({
+        error: "Agent Error",
+        message: err?.message || "Something went wrong",
+      });
   }
 };

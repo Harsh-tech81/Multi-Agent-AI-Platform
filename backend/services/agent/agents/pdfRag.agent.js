@@ -4,13 +4,14 @@ import { getModel, retryInvoke } from "../config/llmModels.js";
 import { deductCredits } from "../utils/deductCredits.js";
 import { vectorDbConfig } from "../config/vectorDb.js";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
+import { HumanMessage, SystemMessage } from "@langchain/core/messages";
 export const pdfRagAgent = async (state) => {
   try {
     const buffer = fs.readFileSync(state.file.path);
     const pdf = new PDFParse({
       data: buffer,
     });
-    const res = pdf.getText();
+    const res = await pdf.getText();
     const text = res.text;
     const textSplitter = new RecursiveCharacterTextSplitter({
       chunkSize: 1000,
@@ -45,7 +46,7 @@ Rules:
     ];
 
     const response = await retryInvoke(llm, messages);
-        await deductCredits(state.userId, "pdf");
+    await deductCredits(state.userId, "pdf");
 
     return {
       ...state,

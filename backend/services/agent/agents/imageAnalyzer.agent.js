@@ -1,10 +1,18 @@
+import { AIMessage, HumanMessage, SystemMessage } from "@langchain/core/messages";
 import { getModel, retryInvoke } from "../config/llmModels.js";
 import axios from "axios";
-import fs from "fs";
+import fs from "fs/promises";
 import { deductCredits } from "../utils/deductCredits.js";
 export const imageAnalyzerAgent = async (state) => {
   try {
     const llm = await getModel("imageAnalyzer");
+    if (!state.file || !state.file.path) {
+      return {
+        ...state,
+        aiResponse: "No file uploaded. Please attach an image.",
+      };
+    }
+
     const imageBuffer = await fs.readFile(state.file.path);
     const base64Image = imageBuffer.toString("base64");
     const messages = [
@@ -53,7 +61,7 @@ export const imageAnalyzerAgent = async (state) => {
   } finally {
     // Clean up the uploaded file after processing
     if (state.file && state.file.path) {
-      fs.unlink(state.file.path, (err) => {
+     await fs.unlink(state.file.path, (err) => {
         if (err) {
           console.error("Error deleting uploaded file:", err);
         }

@@ -8,11 +8,7 @@ import { getMemory } from "../config/memory.js";
 import { deductCredits } from "../utils/deductCredits.js";
 export const chatAgent = async (state) => {
 
-
-
-
   try {
-
 
     const llm = await getModel("chat");
     const history = await getMemory(state.conversationId);
