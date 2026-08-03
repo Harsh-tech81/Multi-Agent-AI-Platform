@@ -136,7 +136,7 @@ function SideBar() {
               AgentFlow AI
             </span>
             <span className="text-[10px] font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full tracking-wide">
-              free
+              {userData?.plan || "free"}
             </span>
           </div>
 
@@ -212,7 +212,7 @@ function SideBar() {
                     {userData?.name || "User"}
                   </p>
                   <p className="text-[11px] text-slate-600 mt-px">
-                    {"Free Plan"}
+                    {userData?.plan || "free"} 
                   </p>
                 </div>
 
