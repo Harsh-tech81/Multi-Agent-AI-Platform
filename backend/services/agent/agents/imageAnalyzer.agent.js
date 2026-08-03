@@ -1,10 +1,12 @@
 import { AIMessage, HumanMessage, SystemMessage } from "@langchain/core/messages";
 import { getModel, retryInvoke } from "../config/llmModels.js";
 import axios from "axios";
+import { checkAgentLimit } from "../config/agent.limit.js";
 import fs from "fs/promises";
 import { deductCredits } from "../utils/deductCredits.js";
 export const imageAnalyzerAgent = async (state) => {
   try {
+    await checkAgentLimit("image", state.userId);
     const llm = await getModel("imageAnalyzer");
     if (!state.file || !state.file.path) {
       return {
@@ -56,7 +58,7 @@ export const imageAnalyzerAgent = async (state) => {
     console.error("Error in imageAnalyzerAgent:", err);
     return {
       ...state,
-      aiResponse: "Sorry, something went wrong. Please try again.",
+      aiResponse:err?.data?.message ||  "Sorry, something went wrong. Please try again.",
     };
   } finally {
     // Clean up the uploaded file after processing

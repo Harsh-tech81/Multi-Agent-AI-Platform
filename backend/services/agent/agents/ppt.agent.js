@@ -5,8 +5,10 @@ import { getFromS3 } from "../utils/getFromS3.js";
 import { generatePPT } from "../utils/generatePPT.js";
 import { parseLLMJson } from "../utils/parseLLMJson.js";
 import { deductCredits } from "../utils/deductCredits.js";
+import { checkAgentLimit } from "../config/agent.limit.js";
 export const pptAgent = async (state) => {
   try {
+     await checkAgentLimit("ppt", state.userId);
     const llm = await getModel("ppt");
     const res = await retryInvoke(
       llm,
@@ -74,7 +76,7 @@ ${state.prompt}
     console.error("Error in pptAgent:", err);
     return {
       ...state,
-      aiResponse: "Sorry, something went wrong. Please try again.",
+      aiResponse: err?.data?.message ||  "Sorry, something went wrong. Please try again.",
     };
   }
 };

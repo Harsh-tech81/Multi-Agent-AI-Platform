@@ -1,10 +1,12 @@
 import { getModel, retryInvoke } from "../config/llmModels.js";
 import axios from "axios";
 import { uploadToS3 } from "../utils/uploadToS3.js";
+import { checkAgentLimit } from "../config/agent.limit.js";
 import { getFromS3 } from "../utils/getFromS3.js";
 import { deductCredits } from "../utils/deductCredits.js";
 export const visionAgent = async (state) => {
   try {
+    await checkAgentLimit("image", state.userId);
     const llm = await getModel("image");
     const res = await retryInvoke(
       llm,
@@ -54,7 +56,9 @@ User Request: ${state.prompt}
     console.error(err);
     return {
       ...state,
-      aiResponse: "Failed to generate image. Please try again later.",
+      aiResponse:
+        err?.data?.message ||
+        "Failed to generate image. Please try again later.",
     };
   }
 };

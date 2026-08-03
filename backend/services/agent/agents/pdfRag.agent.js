@@ -3,10 +3,12 @@ import { PDFParse } from "pdf-parse";
 import { getModel, retryInvoke } from "../config/llmModels.js";
 import { deductCredits } from "../utils/deductCredits.js";
 import { vectorDbConfig } from "../config/vectorDb.js";
+import { checkAgentLimit } from "../config/agent.limit.js";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
 export const pdfRagAgent = async (state) => {
   try {
+     await checkAgentLimit("pdf", state.userId);
     const buffer = fs.readFileSync(state.file.path);
     const pdf = new PDFParse({
       data: buffer,
@@ -56,7 +58,7 @@ Rules:
     console.error("Error in pdfRagAgent:", error);
     return {
       ...state,
-      aiResponse: "Sorry, something went wrong. Please try again.",
+      aiResponse: error?.data?.message || "Sorry, something went wrong. Please try again.",
     };
   } finally {
     // Clean up the uploaded file after processing

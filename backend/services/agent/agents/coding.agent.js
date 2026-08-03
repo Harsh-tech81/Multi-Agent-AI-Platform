@@ -1,8 +1,10 @@
 import { getModel, retryInvoke } from "../config/llmModels.js";
 import { parseLLMJson } from "../utils/parseLLMJson.js";
 import { deductCredits } from "../utils/deductCredits.js";
+import { checkAgentLimit } from "../config/agent.limit.js";
 export const codingAgent = async (state) => {
   try {
+    await checkAgentLimit("coding", state.userId);
     const intentllm = await getModel("intent");
     const llm = await getModel("coding");
     // first find the intent of the user prompt using an LLM model.
@@ -128,7 +130,8 @@ ${state.prompt}
     console.error("Error in codingAgent:", err);
     return {
       ...state,
-      aiResponse: "Sorry, something went wrong. Please try again.",
+      aiResponse:err?.data?.message ||  "Sorry, something went wrong. Please try again.",
+      artifacts: [],
     };
   }
 };

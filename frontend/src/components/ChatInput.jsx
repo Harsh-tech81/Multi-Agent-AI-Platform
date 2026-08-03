@@ -15,7 +15,12 @@ import { useState } from "react";
 import { useRef } from "react";
 import sendMessage from "../features/sendMessage";
 import { useSelector, useDispatch } from "react-redux";
-import { addMessage, setMessages, setArtifacts,setIsLoading } from "../redux/messageSlice";
+import {
+  addMessage,
+  setMessages,
+  setArtifacts,
+  setIsLoading,
+} from "../redux/messageSlice";
 import { createConversation } from "../features/createConversation";
 import {
   setSelectedConversation,
@@ -31,6 +36,7 @@ function ChatInput() {
   const dispatch = useDispatch();
   const fileRef = useRef(null);
   const { selectedConversation } = useSelector((state) => state.conversation);
+  const { isLoading } = useSelector((state) => state.message);
   const handleSendMessage = async () => {
     dispatch(setIsLoading(true)); // Set loading state to true when sending a message
     let conversation = selectedConversation;
@@ -231,7 +237,7 @@ ${
           </div>
 
           <button
-            disabled={!value.trim()}
+            disabled={!value.trim() && isLoading}
             onClick={() => {
               handleSendMessage();
             }}

@@ -8,6 +8,19 @@ const PORT = process.env.PORT || 8003;
 const app = express();
 app.use(express.json());
 app.use("/", router);
+
+app.use((err, req, res, next) => {
+  console.log("Error:", err);
+  if (err.status) {
+    return res.status(err.status).json(err.data);
+  } else {
+    res.status(500).json({
+      error: "Agent Error",
+      message: err?.message || "Something went wrong",
+    });
+  }
+});
+
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Agent Service is running" });
 });

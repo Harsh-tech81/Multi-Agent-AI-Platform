@@ -5,8 +5,10 @@ import { getFromS3 } from "../utils/getFromS3.js";
 import { generatePdf } from "../utils/generatePdf.js";
 import { parseLLMJson } from "../utils/parseLLMJson.js";
 import { deductCredits } from "../utils/deductCredits.js";
+import { checkAgentLimit } from "../config/agent.limit.js";
 export const pdfAgent = async (state) => {
   try {
+    await checkAgentLimit("pdf", state.userId);
     const llm = await getModel("pdf");
     const res = await retryInvoke(
       llm,
@@ -52,10 +54,10 @@ ${state.prompt}
 `,
     };
   } catch (err) {
-    console.error("Error in pdfAgent:", err);
+    console.log("Error in pdfAgent:", err);
     return {
       ...state,
-      aiResponse: "Sorry, something went wrong. Please try again.",
+      aiResponse: err?.data?.message || "Sorry, something went wrong. Please try again.",
     };
   }
 };

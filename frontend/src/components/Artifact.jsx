@@ -96,8 +96,8 @@ ${htmlContent?.content || ""}
                 {onClose ? <X size={15} /> : <PanelRightClose size={16} />}
               </button>
               <div className="flex items-center gap-2 flex-1 min-w-0">
-                <div className="flex items-center justify-center w-6 h-6 rounded-md bg-indigo-500/10 border border-indigo-500/20 shrink-0">
-                  <Code2 className="text-indigo-400" size={12} />
+                <div className="flex items-center justify-center w-6 h-6 rounded-md bg-emerald-500/10 border border-emerald-500/20 shrink-0">
+                  <Code2 className="text-emerald-400" size={12} />
                 </div>
                 <div className="text-[13px] font-medium text-slate-200 truncate">
                   {artifacts[0]?.title}
@@ -122,12 +122,12 @@ ${htmlContent?.content || ""}
                 <div className="flex items-center gap-1 bg-white/[0.04] border border-white/[0.06] p-1 rounded-lg">
                   <button
                     onClick={() => setTab("code")}
-                    className={`flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-md transition-colors duration-150  ${tab === "code" ? "text-white bg-indigo-500" : "text-slate-500 hover:text-slate-200 "}`}
+                    className={`flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-md transition-colors duration-150  ${tab === "code" ? "text-white bg-emerald-600" : "text-slate-500 hover:text-slate-200 "}`}
                   >
                     <Code2 size={11} /> Code
                   </button>
                   <button
-                    className={`flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-md transition-colors duration-150  ${tab === "preview" ? "text-white bg-indigo-500" : "text-slate-500 hover:text-slate-200 "}`}
+                    className={`flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-md transition-colors duration-150  ${tab === "preview" ? "text-white bg-emerald-600" : "text-slate-500 hover:text-slate-200 "}`}
                     onClick={() => setTab("preview")}
                   >
                     <Eye size={11} /> Preview
@@ -140,12 +140,12 @@ ${htmlContent?.content || ""}
                 {artifacts[0]?.files?.map((f, index) => (
                   <button
                     key={index}
-                    className={`px-4 py-2.5 text-[11px] font-medium whitespace-nowrap transition-colors duration-150 border-r border-white/[0.05] relative cursor-pointer bg-transparent ${selectedFile === index ? "text-indigo-400" : "text-slate-500 hover:text-slate-300"}`}
+                    className={`px-4 py-2.5 text-[11px] font-medium whitespace-nowrap transition-colors duration-150 border-r border-white/[0.05] relative cursor-pointer bg-transparent ${selectedFile === index ? "text-emerald-400" : "text-slate-500 hover:text-slate-300"}`}
                     onClick={() => setSelectedFile(index)}
                   >
                     {f?.name}
                     {selectedFile === index && (
-                      <div className="absolute bottom-0 left-0 right-0 rounded-t-full h-[2px] bg-indigo-500" />
+                      <div className="absolute bottom-0 left-0 right-0 rounded-t-full h-[2px] bg-emerald-500" />
                     )}
                   </button>
                 ))}
@@ -223,7 +223,7 @@ ${htmlContent?.content || ""}
     <>
       <button
         onClick={() => setMobileOpen(true)}
-        className="lg:hidden fixed bottom-24 right-4 z-40 flex items-center gap-2 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text[12px] font-medium transition-colors duration-150 shadow-lg shadow-indigo-500/20 border-none cursor-pointer "
+        className="lg:hidden fixed bottom-24 right-4 z-40 flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text[12px] font-medium transition-colors duration-150 shadow-lg shadow-emerald-500/20 border-none cursor-pointer "
       >
         <Code2 size={13} />
         View Code

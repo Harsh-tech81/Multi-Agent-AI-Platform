@@ -2,7 +2,7 @@ import axios from "axios";
 import { graph } from "../graph/graph.js";
 import redis from "../../../shared/redis/redis.js";
 import { addMessage } from "../config/memory.js";
-export const agent = async (req, res) => {
+export const agent = async (req, res,next) => {
   try {
     const { prompt, conversationId, agent } = req.body;
     const file = req.file; // Get the uploaded file from the request
@@ -42,11 +42,6 @@ export const agent = async (req, res) => {
         artifacts: result?.artifacts || [],
       });
   } catch (err) {
-    res
-      .status(500)
-      .json({
-        error: "Agent Error",
-        message: err?.message || "Something went wrong",
-      });
+   next(err);
   }
 };

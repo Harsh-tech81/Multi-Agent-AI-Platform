@@ -128,8 +128,11 @@ function SideBar() {
               <PanelLeftIcon />
             </div>
 
-            <button onClick={()=>setMobileOpen(false)} className="lg:hidden flex items-center justify-center w-7 h-7 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-colors duration-150 bg-transparent border-none cursor-pointer">
-              <X size={18}/>
+            <button
+              onClick={() => setMobileOpen(false)}
+              className="lg:hidden flex items-center justify-center w-7 h-7 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-white/[0.05] transition-colors duration-150 bg-transparent border-none cursor-pointer"
+            >
+              <X size={18} />
             </button>
 
             <span className="text-[16px] font-semibold tracking-tight text-slate-100 flex-1 cursor-pointer">
@@ -212,7 +215,7 @@ function SideBar() {
                     {userData?.name || "User"}
                   </p>
                   <p className="text-[11px] text-slate-600 mt-px">
-                    {userData?.plan || "free"} 
+                    {userData?.plan || "free"}
                   </p>
                 </div>
 
@@ -242,7 +245,6 @@ function SideBar() {
             )}
           </div>
         </div>
-
       </div>
 
       <BillingDrawer
