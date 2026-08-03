@@ -8,13 +8,14 @@ import {
   Paperclip,
   Presentation,
   Send,
+  X,
   Zap,
 } from "lucide-react";
 import { useState } from "react";
 import { useRef } from "react";
 import sendMessage from "../features/sendMessage";
 import { useSelector, useDispatch } from "react-redux";
-import { addMessage, setMessages, setArtifacts } from "../redux/messageSlice";
+import { addMessage, setMessages, setArtifacts,setIsLoading } from "../redux/messageSlice";
 import { createConversation } from "../features/createConversation";
 import {
   setSelectedConversation,
@@ -31,6 +32,7 @@ function ChatInput() {
   const fileRef = useRef(null);
   const { selectedConversation } = useSelector((state) => state.conversation);
   const handleSendMessage = async () => {
+    dispatch(setIsLoading(true)); // Set loading state to true when sending a message
     let conversation = selectedConversation;
     if (!conversation) {
       const conver = await createConversation(); // Create a new conversation if none is selected
@@ -50,18 +52,20 @@ function ChatInput() {
       );
     }
 
-
-  console.log("Selected File:", selectedFile);
-const formData = new FormData();
-formData.append("prompt", value.trim());
-formData.append("conversationId", conversation?._id);
-formData.append("agent", selectedAgent.toLowerCase());
-formData.append("file", selectedFile);
+    console.log("Selected File:", selectedFile);
+    const formData = new FormData();
+    formData.append("prompt", value.trim());
+    formData.append("conversationId", conversation?._id);
+    formData.append("agent", selectedAgent.toLowerCase());
+    if (selectedFile) {
+      formData.append("file", selectedFile);
+    }
 
     dispatch(addMessage({ role: "user", content: value.trim() }));
     setValue("");
     const data = await sendMessage(formData);
-
+    dispatch(setIsLoading(false)); // Set loading state to false after receiving the response
+    setSelectedFile(null);
     if (!data) {
       dispatch(
         addMessage({
@@ -163,6 +167,41 @@ ${
             );
           })}
         </div>
+
+        {selectedFile && (
+          <div className="my-3">
+            <div className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2">
+              {selectedFile?.type === "application/pdf" ? (
+                <FileText size={16} className="text-red-400" />
+              ) : (
+                selectedFile?.type.startsWith("image/") && (
+                  <img
+                    src={URL.createObjectURL(selectedFile)}
+                    alt="Selected"
+                    className="w-10 h-10 object-cover rounded-xl mt-3"
+                  />
+                )
+              )}
+
+              <div>
+                <p className="text-xs text-white">{selectedFile?.name}</p>
+                <p className="text-[10px] text-slate-500">
+                  {Math.ceil(selectedFile?.size / 1024)} KB
+                </p>
+              </div>
+
+              <button
+                className="ml-2"
+                onClick={() => {
+                  setSelectedFile(null);
+                  fileRef.current.value = null;
+                }}
+              >
+                <X size={14} className="text-slate-500 hover:text-white" />
+              </button>
+            </div>
+          </div>
+        )}
 
         <textarea
           placeholder="Ask Anything..."

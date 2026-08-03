@@ -32,7 +32,7 @@ function BillingDrawer({ open, onClose }) {
           }
         },
         theme: {
-          color: "#4F46E5",
+          color: "#059669",
         },
       };
 
@@ -61,7 +61,7 @@ function BillingDrawer({ open, onClose }) {
             exit={{ x: "100%" }}
             transition={{ duration: 0.25, ease: "easeOut" }}
             onClick={(e) => e.stopPropagation()}
-            className="fixed right-0 top-0 h-screen w-[380px] bg-[#181a20] border-l border-white/10 shadow-2xl z-50 flex flex-col"
+            className="fixed right-0 top-0 h-screen w-full max-w-[380px] bg-[#181a20] border-l border-white/10 shadow-2xl z-50 flex flex-col"
           >
             <div className="flex items-center justify-between p-5 border-b border-white/10 bg-[#14161c]">
               <div>
@@ -100,7 +100,7 @@ function BillingDrawer({ open, onClose }) {
 
                   <div className="h-2 rounded-full bg-white/10 overflow-hidden">
                     <div
-                      className="h-full bg-indigo-500 transition-all duration-500"
+                      className="h-full bg-emerald-500 transition-all duration-500"
                       style={{
                         width: `${((userData?.credits || 0) / (userData?.totalCredits || 1)) * 100}%`,
                       }}
@@ -114,11 +114,11 @@ function BillingDrawer({ open, onClose }) {
               <div className="rounded-xl border border-white/10 p-4">
                 <h3 className="text-white font-semibold">Starter Plan</h3>
 
-                <p className="text-indigo-400 text-2xl font-bold mt-2">₹199</p>
+                <p className="text-emerald-400 text-2xl font-bold mt-2">₹199</p>
                 <p className="text-slate-400 text-sm mt-1">500 Credits</p>
                 <button
                   onClick={() => handleUpgrade("starter")}
-                  className="mt-4 w-full rounded-lg bg-indigo-600 hover:bg-indigo-700 py-2 text-white"
+                  className="mt-4 w-full rounded-lg bg-emerald-600 hover:bg-emerald-500 py-2 text-white"
                 >
                   Upgrade
                 </button>
@@ -127,11 +127,11 @@ function BillingDrawer({ open, onClose }) {
               <div className="rounded-xl border border-white/10 p-4">
                 <h3 className="text-white font-semibold">Pro Plan</h3>
 
-                <p className="text-indigo-400 text-2xl font-bold mt-2">₹499</p>
+                <p className="text-emerald-400 text-2xl font-bold mt-2">₹499</p>
                 <p className="text-slate-400 text-sm mt-1">1000 Credits</p>
                 <button
                   onClick={() => handleUpgrade("pro")}
-                  className="mt-4 w-full rounded-lg bg-indigo-600 hover:bg-indigo-700 py-2 text-white"
+                  className="mt-4 w-full rounded-lg bg-emerald-600 hover:bg-emerald-500 py-2 text-white"
                 >
                   Upgrade
                 </button>
