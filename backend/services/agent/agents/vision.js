@@ -35,17 +35,17 @@ User Request: ${state.prompt}
 
     `,
     );
-    console.log("Generated Image Prompt:", res?.content);
+
     const prompt = res?.content?.trim() || "";
-    const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`;
-    console.log("Generated Image Prompt:", imageUrl);
+    const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=flux-schnell&nologo=true`;
+    console.log("Generated Image URL:", imageUrl);
     const imageRes = await axios.get(imageUrl, { responseType: "arraybuffer" });
     await deductCredits(state.userId, "vision"); // Deduct credits for the user before processing the chat request
     const buffer = Buffer.from(imageRes.data);
     const fileName = `image-${Date.now()}.png`;
     await uploadToS3(fileName, buffer, "image/png");
     const downloadUrl = await getFromS3(fileName, 24 * 60); // 24 hours
-    console.log("Generated Image Download URL:", downloadUrl);
+    
     return {
       ...state,
       aiResponse: `
@@ -55,7 +55,7 @@ User Request: ${state.prompt}
 `,
     };
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     return {
       ...state,
       aiResponse:

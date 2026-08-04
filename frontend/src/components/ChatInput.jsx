@@ -50,14 +50,15 @@ function ChatInput() {
     recognition.continuous = true;
     recognition.interimResults = true;
     recognition.lang = "en-US";
-    recognition.onresult = (event) => {
-      let transcript = "";
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        transcript += event.results[i][0].transcript;
-      }
+recognition.onresult = (event) => {
+  let transcript = "";
 
-      setValue(transcript);
-    };
+  for (let i = event.resultIndex; i < event.results.length; i++) {
+    transcript += event.results[i][0].transcript;
+  }
+
+  setValue(transcript);
+};
 
     recognition.onend = () => {
       setListen(false);
