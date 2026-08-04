@@ -42,6 +42,11 @@ function SideBar() {
     getConv();
   }, [userData?._id]);
 
+  const handleSelectConversation = (conversation) => {
+    dispatch(setSelectedConversation(conversation));
+    setMobileOpen(false);
+  };
+
   if (collapsed) {
     return (
       <div className="hidden lg:flex items-center flex-col w-[56px] h-screen shrink-0 bg-[#111215] border-r border-white/[0.06] py-4 gap-1">
@@ -68,9 +73,7 @@ function SideBar() {
               const isActive = conversation?._id === selectedConversation?._id;
               return (
                 <div
-                  onClick={() =>
-                    dispatch(setSelectedConversation(conversation))
-                  }
+                  onClick={() => handleSelectConversation(conversation)}
                   key={id}
                   className={`flex items-center gap-2.5 px-3 py-2.5 rounded-[10px] mb-0.5 cursor-pointer border transition-colors duration-150 ${isActive ? "bg-emerald-500/10 border-emerald-500/[0.18] " : "bg-transparent border-transparent"}`}
                 >
@@ -138,7 +141,7 @@ function SideBar() {
             <span className="text-[16px] font-semibold tracking-tight text-slate-100 flex-1 cursor-pointer">
               AgentFlow AI
             </span>
-            <span className="text-[10px] font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full tracking-wide">
+            <span className="text-[10px] font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full tracking-wide cursor-pointer">
               {userData?.plan || "free"}
             </span>
           </div>
@@ -170,9 +173,7 @@ function SideBar() {
                   conversation?._id === selectedConversation?._id;
                 return (
                   <div
-                    onClick={() =>
-                      dispatch(setSelectedConversation(conversation))
-                    }
+                    onClick={() => handleSelectConversation(conversation)}
                     key={id}
                     className={`flex items-center gap-2.5 px-3 py-2.5 rounded-[10px] mb-0.5 cursor-pointer border transition-colors duration-150 ${isActive ? "bg-emerald-500/10 border-emerald-500/[0.18] " : "bg-transparent border-transparent"}`}
                   >
@@ -214,7 +215,7 @@ function SideBar() {
                   <p className="text-[13.5px] font-semibold text-slate-100 truncate">
                     {userData?.name || "User"}
                   </p>
-                  <p className="text-[11px] text-slate-600 mt-px">
+                  <p className="text-[11px] text-slate-600 mt-px cursor-pointer">
                     {userData?.plan || "free"}
                   </p>
                 </div>
