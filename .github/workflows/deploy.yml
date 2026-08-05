@@ -9,6 +9,12 @@ env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+  EC2_CLUSTER: ${{ secrets.ECS_CLUSTER }}
+  GATEWAY_SERVICE: ${{ secrets.GATEWAY_SERVICE }}
+  AUTH_SERVICE: ${{ secrets.AUTH_SERVICE }}
+  CHAT_SERVICE: ${{ secrets.CHAT_SERVICE }}
+  BILLING_SERVICE: ${{ secrets.BILLING_SERVICE }}
+  AGENT_SERVICE: ${{ secrets.AGENT_SERVICE }}
 
 jobs:
   deploy-backend:
