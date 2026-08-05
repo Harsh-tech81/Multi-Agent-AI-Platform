@@ -161,11 +161,11 @@ recognition.onresult = (event) => {
       icon: Presentation,
       label: "PPT",
     },
-    {
-      id: "vision",
-      icon: ImageIcon,
-      label: "Vision",
-    },
+    // {
+    //   id: "vision",
+    //   icon: ImageIcon,
+    //   label: "Vision",
+    // },
     {
       id: "search",
       icon: Globe,
