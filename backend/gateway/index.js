@@ -25,7 +25,7 @@ app.use("/api/billing", protect, proxyWithHeader(process.env.BILLING_SERVICE_URL
 app.use("/api/agent", protect, proxyWithHeader(process.env.AGENT_SERVICE_URL));
 app.get("/api/me", getCurrUser);
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Gateway is running" });
+  res.status(200).json({ message: "Gateway is running testing mode" });
 });
 
 app.listen(PORT, () => {
