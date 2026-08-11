@@ -1,0 +1,80 @@
+services:
+  # 1. API Gateway (Public Web Service)
+  # This is the only service exposed to the internet.
+  - type: web
+    name: cortex-gateway
+    env: node
+    rootDir: backend/gateway
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: FRONTEND_URL
+        sync: false # You will set this to your Vercel URL in the Render Dashboard
+      - key: AUTH_SERVICE_URL
+        value: http://cortex-auth:10001
+      - key: CHAT_SERVICE_URL
+        value: http://cortex-chat:10002
+      - key: BILLING_SERVICE_URL
+        value: http://cortex-billing:10003
+      - key: AGENT_SERVICE_URL
+        value: http://cortex-agent:10004
+      # Add other Gateway env vars (like JWT_SECRET) in the Render Dashboard
+
+  # 2. Auth Service (Private)
+  - type: pserv
+    name: cortex-auth
+    env: node
+    rootDir: backend/services/auth
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: "10001"
+      - key: MONGO_URI
+        sync: false # Set in Render Dashboard
+      # Add Firebase env vars in Render Dashboard
+
+  # 3. Chat Service (Private)
+  - type: pserv
+    name: cortex-chat
+    env: node
+    rootDir: backend/services/chat
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: "10002"
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: cortex-redis
+          property: connectionString
+
+  # 4. Billing Service (Private)
+  - type: pserv
+    name: cortex-billing
+    env: node
+    rootDir: backend/services/billing
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: "10003"
+      # Add Stripe/Billing env vars in Render Dashboard
+
+  # 5. Agent Service (Private)
+  - type: pserv
+    name: cortex-agent
+    env: node
+    rootDir: backend/services/agent
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: "10004"
+      # Add AI/Agent env vars in Render Dashboard
+
+  # 6. Redis Instance
+  - type: redis
+    name: cortex-redis
+    plan: free # Render's free Redis plan (evicts after 50MB, upgrade if needed)
