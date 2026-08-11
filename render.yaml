@@ -32,6 +32,8 @@ services:
         value: "10001"
       - key: MONGO_URI
         sync: false 
+      - key: FIREBASE_SERVICE_ACCOUNT
+        sync: false 
 
   # 3. Chat Service
   - type: web
@@ -73,6 +75,8 @@ services:
     envVars:
       - key: PORT
         value: "10004"
+      - key: GROQ_API_KEY
+        sync: false
 
   # 6. Redis Instance
   - type: redis
