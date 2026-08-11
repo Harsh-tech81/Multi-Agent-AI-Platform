@@ -18,6 +18,11 @@ services:
         value: https://cortex-billing.onrender.com
       - key: AGENT_SERVICE_URL
         value: https://cortex-agent.onrender.com
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: cortex-redis
+          property: connectionString
 
   # 2. Auth Service
   - type: web
@@ -34,6 +39,11 @@ services:
         sync: false 
       - key: FIREBASE_SERVICE_ACCOUNT
         sync: false 
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: cortex-redis
+          property: connectionString
 
   # 3. Chat Service
   - type: web
@@ -63,6 +73,11 @@ services:
     envVars:
       - key: PORT
         value: "10003"
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: cortex-redis
+          property: connectionString
 
   # 5. Agent Service
   - type: web
@@ -77,6 +92,11 @@ services:
         value: "10004"
       - key: GROQ_API_KEY
         sync: false
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: cortex-redis
+          property: connectionString
 
   # 6. Redis Instance
   - type: redis
