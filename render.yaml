@@ -78,3 +78,4 @@ services:
   - type: redis
     name: cortex-redis
     plan: free # Render's free Redis plan (evicts after 50MB, upgrade if needed)
+    ipAllowList: [] # Only allow internal Render services to connect
