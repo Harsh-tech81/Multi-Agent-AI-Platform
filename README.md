@@ -2,8 +2,6 @@
 
 AgentFlow-AI is a powerful Multiagent AI Platform built on a robust microservices architecture. It provides a suite of specialized AI agents to handle diverse tasks such as coding, image analysis, document generation (PDF/PPT), and conversational search.
 
-🌐 **Live Demo:** [AgentFlow-AI on AWS](https://d207y6mo1zz6xc.cloudfront.net)
-
 ---
 
 ## 🌟 Key Features
