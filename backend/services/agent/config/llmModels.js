@@ -21,17 +21,18 @@ const openRouter = new ChatOpenRouter({
 
 
 export const getModel=async (agent) => {
+    // Groq is returning ECONNRESET on the local network, so we fallback to Gemini for all agents.
     switch (agent) {
         case 'chat':
-            return groq;
+            return gemini;
         case 'search':
-            return groq;
+            return gemini;
         case 'imageAnalyzer':
             return gemini;
         case 'coding':
             return openRouter;
         default:
-            return groq;
+            return gemini;
     }
 };
 
