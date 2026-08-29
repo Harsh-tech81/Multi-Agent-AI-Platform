@@ -1,5 +1,7 @@
 import { ChatGroq } from "@langchain/groq"
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai"
+// Here we have used the OpenRouter model for coding tasks, but you can replace it with any other model that suits your needs.
+// OpenRouter is a platform that allows you to access various LLMs, including open-source models, through a unified API. You can explore other models on OpenRouter's website: https://openrouter.ai/models
 import { ChatOpenRouter } from "@langchain/openrouter";
 
 const groq = new ChatGroq({

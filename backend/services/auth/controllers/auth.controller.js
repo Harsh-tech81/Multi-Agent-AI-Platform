@@ -37,9 +37,9 @@ export const login = async (req, res) => {
     );
 
     res.cookie("session", sessionId, {
-      httpOnly: true,
-      secure: true, 
-      sameSite: "none",
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
 

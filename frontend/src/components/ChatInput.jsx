@@ -84,6 +84,16 @@ recognition.onresult = (event) => {
     let conversation = selectedConversation;
     if (!conversation) {
       const conver = await createConversation(); // Create a new conversation if none is selected
+      if (!conver) {
+        dispatch(setIsLoading(false));
+        dispatch(
+          addMessage({
+            role: "assistant",
+            content: "Failed to create conversation. Please login and try again.",
+          }),
+        );
+        return;
+      }
       dispatch(setMessages([]));
       dispatch(setSelectedConversation({ ...conver, isNew: true })); // Set the newly created conversation as selected
       dispatch(addConversation(conver)); // Add the user's message to the new conversation

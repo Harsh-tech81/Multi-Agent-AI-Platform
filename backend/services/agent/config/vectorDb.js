@@ -7,7 +7,7 @@ dotenv.config();
 export const vectorDbConfig = async (docs, collectionName) => {
   return await QdrantVectorStore.fromDocuments(docs, embeddings, {
     url: process.env.QDRANT_URL,
-    apiKey: process.env.QDRANT_API_KEY || process.env.OPENAI_API_KEY,
+    apiKey: process.env.QDRANT_API_KEY  ,
     collectionName: collectionName,
   });
 };
